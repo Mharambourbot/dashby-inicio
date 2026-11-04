@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>DashBy</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="DashBy">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="theme-color" content="#141414">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <style>
+    html, body { margin: 0; height: 100%; background: #ffffff; }
+    iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; }
+  </style>
+</head>
+<body>
+  <!-- Carcasa de DashBy: solo pone el ícono y abre la app de Streamlit adentro. No tiene datos ni claves. -->
+  <iframe id="app" title="DashBy" allow="clipboard-write"></iframe>
+  <script>
+    const APP = "https://app-dashby-6b2ebmyck3b7bvnqslxnxc.streamlit.app/";
+    const k = new URLSearchParams(location.search).get("k");
+    const url = new URL(APP);
+    url.searchParams.set("embed", "true");
+    if (k) url.searchParams.set("k", k);
+    document.getElementById("app").src = url.toString();
+  </script>
+</body>
+</html>
