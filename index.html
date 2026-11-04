@@ -13,16 +13,19 @@
   <link rel="icon" type="image/png" href="icon-192.png">
   <link rel="manifest" href="manifest.webmanifest">
   <style>
-    html, body { margin: 0; height: 100%; background: #ffffff; overflow: hidden; }
+    html, body { margin: 0; height: 100%; background: #ffffff; overflow: hidden; overscroll-behavior: none; }
+    /* Caja fija del tamaño exacto de la pantalla: la página de afuera nunca se desplaza. Si se desplazaba,
+       el iPhone dibujaba la app en un lugar y recibía los toques en otro (había que tocar 1 cm más arriba). */
+    #caja { position: fixed; inset: 0; overflow: hidden; }
     /* Más alto que la pantalla: deja fuera de vista la franja "Built with Streamlit · Fullscreen"
        que Streamlit Cloud pone abajo de las apps incrustadas. */
     /* width 1px + min-width 100%: evita que el iPhone agrande el iframe más allá de la pantalla. */
-    iframe { position: fixed; top: 0; left: 0; width: 1px; min-width: 100%; max-width: 100vw; height: calc(100% + 56px); border: 0; }
+    iframe { position: absolute; top: 0; left: 0; width: 1px; min-width: 100%; max-width: 100%; height: calc(100% + 56px); border: 0; display: block; }
   </style>
 </head>
 <body>
   <!-- Carcasa de DashBy: solo pone el ícono y abre la app de Streamlit adentro. No tiene datos ni claves. -->
-  <iframe id="app" title="DashBy" allow="clipboard-write"></iframe>
+  <div id="caja"><iframe id="app" title="DashBy" allow="clipboard-write"></iframe></div>
   <script>
     const APP = "https://app-dashby-6b2ebmyck3b7bvnqslxnxc.streamlit.app/";
     const k = new URLSearchParams(location.search).get("k");
@@ -32,7 +35,10 @@
     const marco = document.getElementById("app");
     marco.src = url.toString();
     // El iPhone a veces agranda el iframe al ancho de su contenido: se fija al ancho real de la pantalla.
-    function ajustar() { marco.style.width = document.documentElement.clientWidth + "px"; }
+    function ajustar() {
+      marco.style.width = document.getElementById("caja").clientWidth + "px";
+      window.scrollTo(0, 0);
+    }
     ajustar();
     window.addEventListener("resize", ajustar);
     window.addEventListener("orientationchange", () => setTimeout(ajustar, 300));
