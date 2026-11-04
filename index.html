@@ -29,7 +29,13 @@
     const url = new URL(APP);
     url.searchParams.set("embed", "true");
     if (k) url.searchParams.set("k", k);
-    document.getElementById("app").src = url.toString();
+    const marco = document.getElementById("app");
+    marco.src = url.toString();
+    // El iPhone a veces agranda el iframe al ancho de su contenido: se fija al ancho real de la pantalla.
+    function ajustar() { marco.style.width = document.documentElement.clientWidth + "px"; }
+    ajustar();
+    window.addEventListener("resize", ajustar);
+    window.addEventListener("orientationchange", () => setTimeout(ajustar, 300));
   </script>
 </body>
 </html>
