@@ -16,7 +16,8 @@
     html, body { margin: 0; height: 100%; background: #ffffff; overflow: hidden; }
     /* Más alto que la pantalla: deja fuera de vista la franja "Built with Streamlit · Fullscreen"
        que Streamlit Cloud pone abajo de las apps incrustadas. */
-    iframe { position: fixed; top: 0; left: 0; width: 100%; height: calc(100% + 56px); border: 0; }
+    /* width 1px + min-width 100%: evita que el iPhone agrande el iframe más allá de la pantalla. */
+    iframe { position: fixed; top: 0; left: 0; width: 1px; min-width: 100%; max-width: 100vw; height: calc(100% + 56px); border: 0; }
   </style>
 </head>
 <body>
